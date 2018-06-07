@@ -1,9 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 import flipEngine from './flipEngine';
 
 const FLIP_DURATION = 500;
+
+const pToPercentage = p => (
+  Math.round(p*100)
+)
 
 class App extends Component {
 
@@ -13,7 +17,6 @@ class App extends Component {
     heads: null,
     amount: null,
     slider: null,
-    p: null,
   }
 
   onAmountChange = e => {
@@ -22,13 +25,11 @@ class App extends Component {
       this.setState({
         amount,
         slider: amount/2,
-        p: 0.5
       });
     }else{
       this.setState({
         amount: null,
         slider: null,
-        p: null
       });
     }
   }
@@ -37,13 +38,21 @@ class App extends Component {
     const slider = parseFloat(e.target.value);
     this.setState({
       slider,
-      p: flipEngine(this.state.amount, slider)
     });
   }
 
+  getP = () => {
+    const { amount, slider } = this.state;
+    let p = 0.5;
+    if(amount){
+      p = flipEngine(amount, slider)
+    }
+    return p;
+  }
+
   flip = () => {
-    const { amount, slider, p } = this.state;
-    const heads = Math.random() < (p || 0.5);
+    const p = this.getP();
+    const heads = Math.random() < p;
     this.setState({
       heads,
       flipping: true,
@@ -65,7 +74,9 @@ class App extends Component {
 
   render(){
 
-    const { flipping, flipped, heads, amount, slider, p } = this.state;
+    const { flipping, flipped, heads, amount, slider } = this.state;
+
+    const p = this.getP();
 
     console.log(this.state);
 
@@ -84,6 +95,9 @@ class App extends Component {
               {(amount-slider).toFixed(2)}
             </div>
           )}
+          <div>
+            {pToPercentage(p)}% - {pToPercentage(1 - p)}%
+          </div>
           <input type='submit' />
           { flipping && (
             <span>
