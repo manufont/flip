@@ -1,4 +1,6 @@
-# Flip
+# Manufont's coin flipper
+
+[Live demo](http://www.manufont.com/flip/).
 
 ### `npm start`
 
