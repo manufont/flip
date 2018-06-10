@@ -1,0 +1,124 @@
+.sheet-content {
+  height: 45vh;
+  min-height: 300px;
+}
+
+.winMessage {
+  font-size: 1.3em;
+  transition: opacity 0.5s;
+  opacity: 0;
+}
+
+.winMessage.visible {
+  opacity: 1;
+}
+
+.winner {
+  color: #baa032;
+  font-weight: bold;
+}
+
+.side-heads {
+  background-image: url(../../assets/dogecoin_heads.png);
+  z-index: 100;
+}
+
+.side-tails {
+  background-image: url(../../assets/dogecoin_tails.png);
+  transform: rotateY(-180deg);
+}
+
+.flip.tails {
+  transform: rotateY(180deg);
+}
+
+.flip {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  transform-style: preserve-3d;
+}
+
+.side {
+  position: absolute;
+  background-size: cover;
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.coin {
+  display: inline-block;
+  overflow: visible;
+}
+
+.flip.heads.to-heads {
+  animation: flipHeadsToHeads 2s ease-out forwards/*, rotate 2s linear forwards*/;
+}
+
+.flip.heads.to-tails {
+  animation: flipHeadsToTails 2s ease-out forwards/*, rotate 2s linear forwards*/;
+}
+
+.flip.tails.to-heads {
+  animation: flipTailsToHeads 2s ease-out forwards/*, rotate 2s linear forwards*/;
+}
+
+.flip.tails.to-tails {
+  animation: flipTailsToTails 2s ease-out forwards/*, rotate 2s linear forwards*/;
+}
+
+.rotate {
+  animation:rotate 2s linear forwards;
+}
+
+.move {
+  animation: moveUp 1s ease-out forwards, moveDown 1s ease-in 1s forwards;
+}
+
+.zoom {
+  animation: zoomOut 1s ease-out forwards, zoomIn 1s ease-in 1s forwards;
+}
+
+@keyframes flipHeadsToHeads {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(1800deg); }
+}
+
+@keyframes flipHeadsToTails {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(1980deg); }
+}
+
+@keyframes flipTailsToHeads {
+  from { transform: rotateY(-180deg); }
+  to { transform: rotateY(1800deg); }
+}
+
+@keyframes flipTailsToTails {
+  from { transform: rotateY(-180deg); }
+  to { transform: rotateY(1980deg); }
+}
+
+@keyframes rotate { 100% { transform:rotate(1080deg); } }
+
+@keyframes moveUp { 
+  from { transform: translateY(0vh); }
+  to { transform: translateY(-40vh); }
+}
+
+@keyframes moveDown { 
+  from { transform: translateY(-40vh); }
+  to { transform: translateY(0vh); }
+}
+
+@keyframes zoomOut { 
+  from { transform: scale(1); }
+  to { transform: scale(0.6); }
+}
+
+@keyframes zoomIn { 
+  from { transform: scale(0.6); }
+  to { transform: scale(1); }
+}

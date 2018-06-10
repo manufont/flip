@@ -1,25 +1,82 @@
 .App {
   text-align: center;
+  color: white;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+  padding: 10px;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 2.5em;
+  font-weight: normal;
+  margin: 0.4em 0;
+}
+
+.App-subtitle {
+  font-size: 1.2em;
+  font-weight: normal;
+  opacity: 0.8;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  padding: 0 8px;
+  box-sizing: border-box;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.form-item {
+  margin: 6px 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-item.centralized {
+  justify-content: center;
+}
+
+
+.side-and-image {
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  flex: 1;
+}
+
+.percentage {
+  opacity: 0.4;
+}
+
+.amount {
+  color: #baa032;
+}
+
+.amount-input {
+  border: none;
+  background: none;
+  text-align: center;
+  font-size: 2em;
+  width: 200px;
+  margin: 0 auto;
+  -moz-appearance:textfield;
+}
+
+.amount-input:focus {
+  outline-color: #baa032;
+  outline-offset: 5px
+}
+
+.amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }

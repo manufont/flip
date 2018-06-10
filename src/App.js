@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
+import './styles/button.css';
+import './styles/input-range.css';
 
 import flipEngine from './flipEngine';
+import { Coin } from './components';
 
-const FLIP_DURATION = 500;
+import dogecoin_heads from './assets/dogecoin_heads.png';
+import dogecoin_tails from './assets/dogecoin_tails.png';
+
+const FLIP_DURATION = 2000;
 
 const pToPercentage = p => (
   Math.round(p*100)
@@ -14,6 +20,7 @@ class App extends Component {
   state = {
     flipping: false,
     flipped: false,
+    flippingHeads: null,
     heads: null,
     amount: null,
     slider: null,
@@ -54,16 +61,26 @@ class App extends Component {
     const p = this.getP();
     const heads = Math.random() < p;
     this.setState({
-      heads,
+      flippingHeads: heads,
       flipping: true,
       flipped: false,
     })
-    setTimeout(() => {
-      this.setState({
-        flipping: false,
-        flipped: true
-      });
-    }, FLIP_DURATION)
+    setTimeout(this.onFlipEnd, FLIP_DURATION);
+  }
+
+  onFlipEnd = () => {
+    this.setState({
+      flippingHeads: null,
+      flipping: false,
+      flipped: true,
+      heads: this.state.flippingHeads
+    })
+  }
+
+  resetFlip = () => {
+    this.setState({
+      flipped: false
+    })
   }
 
   onFormSubmit = e => {
@@ -74,42 +91,56 @@ class App extends Component {
 
   render(){
 
-    const { flipping, flipped, heads, amount, slider } = this.state;
+    const { flipping, flipped, flippingHeads, heads, amount, slider } = this.state;
 
     const p = this.getP();
-
-    console.log(this.state);
 
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Flip</h1>
-          <h2>Flip a coin, share the costs.</h2>
+          <h1 className="App-title">ManuFlip</h1>
+          <h2 className="App-subtitle">Flip a coin, share the costs.</h2>
         </header>
         <form className="form" onSubmit={this.onFormSubmit}>
-          <input name='amount' type='number' min={0.02} step={0.01} value={amount || ''} onInput={this.onAmountChange} />
-          {amount && (
-            <div>
-              {slider.toFixed(2)}
-              <input name='slider' type='range' min={0.01} max={amount} step={0.01} value={slider} onChange={this.onSliderChange}/>
-              {(amount-slider).toFixed(2)}
-            </div>
-          )}
-          <div>
-            {pToPercentage(p)}% - {pToPercentage(1 - p)}%
+          <div className='form-item'>
+            <input
+              className="amount amount-input" name='amount' type='number' placeholder='How much ?'
+              min={0.02} step={0.01}
+              value={amount || ''} onInput={this.onAmountChange}
+            />
           </div>
-          <input type='submit' />
-          { flipping && (
-            <span>
-              ...flipping
-            </span>
+          <div className='form-item'>
+            <div className='side-and-image'><img width={48} height={48} src={dogecoin_heads} alt='Heads' />&nbsp;Heads</div>
+            <div className='side-and-image'>Tails&nbsp;<img width={48} height={48} src={dogecoin_tails} alt='Tails' /></div>
+          </div>
+          {amount && (
+            <Fragment>
+              <div className='form-item'>
+                <span className='amount'>{slider.toFixed(2)}</span>
+                <span className='amount'>{(amount-slider).toFixed(2)}</span>
+              </div>
+              <div className='form-item'>
+                <input name='slider' className='slider' type='range' min={0.01} max={amount-0.01} step={0.01} value={slider} onChange={this.onSliderChange}/>
+              </div>
+            </Fragment>
           )}
-          {flipped && (
-            <span>
-              {heads ? 'heads' : 'tails'}
-            </span>
-          )}
+          <div className='form-item centralized'>
+            <span className='percentage'>{pToPercentage(p)}%</span>
+            &nbsp;
+            <button type='submit'>Flip it !</button>
+            &nbsp;
+            <span className='percentage'>{pToPercentage(1 - p)}%</span>
+          </div>
+          
         </form>
+        <Coin
+          flipping={flipping}
+          flipped={flipped}
+          heads={heads}
+          flippingHeads={flippingHeads}
+          onOpen={this.flip}
+          onClose={this.resetFlip}
+        />
       </div>
     );
   }
